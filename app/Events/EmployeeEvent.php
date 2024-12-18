@@ -10,16 +10,17 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class EmployeeEvent
+class EmployeeEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
      * Create a new event instance.
      */
-    public function __construct()
+    public $message;
+    public function __construct($message)
     {
-        //
+        $this->message = $message;
     }
 
     /**
@@ -30,7 +31,7 @@ class EmployeeEvent
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('channel-name'),
+            new Channel('employee'),
         ];
     }
 }

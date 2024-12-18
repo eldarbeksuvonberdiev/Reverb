@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\EmployeeEvent;
 use App\Models\Employee;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ class EmployeeController extends Controller
     public function index()
     {
         $employees  = Employee::orderBy('id', 'desc')->get();
-        return view('employee.employee',compact('employees'));
+        return view('employee.employee', compact('employees'));
     }
 
     /**
@@ -30,7 +31,11 @@ class EmployeeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate(['name' => 'required']);
+        $employee  = Employee::create($data);
+        // dd($employee);
+        broadcast(new EmployeeEvent($employee));
+        return back();
     }
 
     /**

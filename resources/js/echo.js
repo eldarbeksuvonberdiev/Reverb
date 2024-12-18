@@ -27,3 +27,23 @@ window.Echo.channel('message')
         newImage.alt = "New Image";
         messageList.prepend(newMessage, newImage);
     });
+
+
+
+window.Echo.channel('employee')
+    .listen('EmployeeEvent', (e) => {
+        console.log(e);
+        const messageList = document.getElementById('employeeList');
+        const newMessage = document.createElement('tr');
+        const newId = document.createElement('td');
+        const newName = document.createElement('td');
+
+        newId.innerText = e.message.id;
+        newName.innerText = e.message.name;
+
+        newMessage.appendChild(newId);
+        newMessage.appendChild(newName);
+
+        messageList.prepend(newMessage);
+    });
+

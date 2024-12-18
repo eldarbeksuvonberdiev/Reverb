@@ -8,29 +8,33 @@
         @csrf
         <div class="row">
             <div class="col-5">
-                <input type="text" name="text" class="form-control" placeholder="Text">
+                <input type="text" name="name" class="form-control" placeholder="Text">
             </div>
             <div class="col-2">
                 <input class="btn btn-primary" type="submit" name="ok" value="Send">
             </div>
         </div>
     </form>
-    <ul id="messageList">
-        <table>
-            <thead>
-                <tr>#</tr>
-                <tr>Name</tr>
-            </thead>
-            <tbody>
-                @forelse ($employees as $employee)
-                    <tr id="employeeList">
-                        <td>{{ $employee->id }}</td>
-                        <td>{{ $employee->name }}</td>
-                    </tr>
-                @empty
-                    NO record
-                @endforelse
-            </tbody>
-        </table>
-    </ul>
+    <table class="table table-striped table-bordered table-hover mt-4 mb-3">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse ($employees as $employee)
+                <tr id="employeeList">
+                    <td>{{ $employee->id }}</td>
+                    <td>{{ $employee->name }}</td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="2" align="center">
+                        NO record
+                    </td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
 @endsection
