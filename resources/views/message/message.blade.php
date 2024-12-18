@@ -13,11 +13,14 @@
 <body>
 
     <div class="container mt-4">
-        <form action="{{ route('message.store') }}" method="post">
+        <form action="{{ route('message.store') }}" method="post" enctype="multipart/form-data"> 
             @csrf
             <div class="row">
-                <div class="col-8 offset">
+                <div class="col-5">
                     <input type="text" name="text" class="form-control" placeholder="Text">
+                </div>
+                <div class="col-5">
+                    <input type="file" name="image" class="form-control">
                 </div>
                 <div class="col-2">
                     <input class="btn btn-primary" type="submit" name="ok" value="Send">
@@ -27,6 +30,7 @@
         <ul id="messageList">
             @forelse ($messages as $message)
                 <li>{{ $message->text }}</li>
+                <img src="{{ asset($message->image) }}" alt="">
             @empty
                 NO record
             @endforelse

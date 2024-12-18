@@ -15,6 +15,7 @@ class MessageController extends Controller
     public function index()
     {
         $messages  = Message::orderBy('created_at', 'desc')->get();
+        // dd($messages);
         return view('message.message', compact('messages'));
     }
 
@@ -31,7 +32,19 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-        $message = Message::create(['text' => $request->text]);
+        $data = $request->validate([
+            'text' => 'required',
+            'image' => 'required|mimes:jpg,jpeg,svg'
+        ]);
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $extension = $file->getClientOriginalExtension();
+            $filename = date("y-m-d_h-i-s_") . time() . '.' . $extension;
+            $file->move('images/', $filename);
+            $data['image'] = 'images/' . $filename;
+        }
+        // dd($data);
+        $message = Message::create($data);
         broadcast(new MessageEvent($message));
         return back();
     }

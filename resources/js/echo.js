@@ -19,7 +19,11 @@ window.Echo.channel('message')
         console.log(e);
         const messageList = document.getElementById('messageList');
         const newMessage = document.createElement('li');
+        const newImage = document.createElement('img');
 
         newMessage.innerText = e.message.text;
-        messageList.prepend(newMessage);
+
+        newImage.src = e.message.image;
+        newImage.alt = "New Image";
+        messageList.prepend(newMessage, newImage);
     });
