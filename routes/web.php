@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\MessageController;
 use Illuminate\Support\Facades\Route;
@@ -11,6 +12,8 @@ Route::get('/', function () {
 
 Route::get('/message',[MessageController::class,'index'])->name('message.index');
 Route::post('/message-create',[MessageController::class,'store'])->name('message.store');
+
+Route::get('/admin',[AdminController::class,'index'])->name('admin.index');
 
 Route::get('/employee',[EmployeeController::class,'index'])->name('employee.index');
 Route::post('/employee-create',[EmployeeController::class,'store'])->name('employee.store');
