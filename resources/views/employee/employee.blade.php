@@ -1,4 +1,4 @@
-@extends('main')
+@extends('layouts.main')
 
 @section('content')
     <a href="{{ route('employee.index') }}" class="mt-5">Employee </a> <br>
@@ -22,9 +22,9 @@
                 <th>Name</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody  id="employeeList">
             @forelse ($employees as $employee)
-                <tr id="employeeList">
+                <tr>
                     <td>{{ $employee->id }}</td>
                     <td>{{ $employee->name }}</td>
                 </tr>

@@ -1,4 +1,4 @@
-@extends('main')
+@extends('layouts.main')
 
 @section('content')
     <a href="{{ route('employee.index') }}" class="mt-5">Employee </a> <br>
