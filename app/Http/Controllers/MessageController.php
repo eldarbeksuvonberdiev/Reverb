@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\MessageEvent;
 use App\Models\Message;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -31,7 +32,8 @@ class MessageController extends Controller
     public function store(Request $request)
     {
         $message = Message::create(['text' => $request->text]);
-        return redirect()->route('message.index');
+        broadcast(new MessageEvent($message));
+        return back();
     }
 
     /**
