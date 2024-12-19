@@ -1,8 +1,7 @@
 @extends('layouts.main')
 
 @section('content')
-    <a href="{{ route('employee.index') }}" class="mt-5">Employee </a> <br>
-    <a href="{{ route('message.index') }}" class="mt-5"> Message</a>
+
     <h1 class="mt-3 mb-3"> Messages</h1>
 
     <form action="{{ route('message.store') }}" method="post" enctype="multipart/form-data">

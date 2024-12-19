@@ -13,6 +13,9 @@
 <body>
 
     <div class="container mt-4">
+        <a href="{{ route('employee.index') }}" class="mt-5">Employee </a> <br>
+        <a href="{{ route('message.index') }}" class="mt-5"> Message</a><br>
+        <a href="{{ route('admin.index') }}" class="mt-5">Admin</a>
         @yield('content')
     </div>
 

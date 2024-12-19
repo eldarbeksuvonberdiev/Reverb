@@ -61,15 +61,19 @@
                                 <!-- Message End -->
                             </a>
                             <div class="dropdown-divider"></div>
-                            @empty
-                                <a href="#" class="dropdown-item">No data</a>
-                            @endforelse
-                            <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+                        @empty
+                            <a href="#" class="dropdown-item">No data</a>
+                        @endforelse
+                        <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
                     </div>
                 </li>
             </ul>
         </nav>
-
+        <div class="ml-5 mt-4">
+            <a href="{{ route('employee.index') }}" class="mt-5">Employee </a> <br>
+            <a href="{{ route('message.index') }}" class="mt-5"> Message</a><br>
+            <a href="{{ route('admin.index') }}" class="mt-5">Admin</a>
+        </div>
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">
             <!-- Control sidebar content goes here -->
