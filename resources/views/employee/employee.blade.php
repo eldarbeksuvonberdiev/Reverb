@@ -2,7 +2,7 @@
 
 @section('content')
     <a href="{{ route('employee.index') }}" class="mt-5">Employee </a> <br>
-    <a href="{{ route('message.index') }}" class="mt-5"> Regular</a>
+    <a href="{{ route('message.index') }}" class="mt-5"> Message</a>
     <h1 class="mt-3 mb-3"> Employee</h1>
     <form action="{{ route('employee.store') }}" method="post" enctype="multipart/form-data">
         @csrf
