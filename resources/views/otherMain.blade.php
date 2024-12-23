@@ -44,7 +44,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         @forelse ($messages as $message)
-                            <a href="#" class="dropdown-item">
+                            <a href="/read-message/{{ $message->id }}" class="dropdown-item">
                                 <div class="media">
                                     <img src="{{ asset($message->image) }}" alt="User Avatar"
                                         class="img-size-50 mr-3 img-circle">
