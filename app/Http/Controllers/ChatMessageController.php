@@ -4,10 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\ChatMessage;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ChatMessageController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
+    public function chat()
+    {
+        $users = User::where('id','!=',Auth::user()->id)->get();
+        return view('message.chatWithUser', compact('users'));
+    }
+
     /**
      * Display a listing of the resource.
      */
