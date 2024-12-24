@@ -40,30 +40,13 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="far fa-comments"></i>
-                        <span class="badge badge-danger navbar-badge" style="font-size: 12px">{{ $messageCount }}</span>
+                        <!-- Xabarlar soni bu joyda yangilanadi -->
+                        <span class="badge badge-danger navbar-badge" id="message-count"
+                            style="font-size: 12px">0</span>
                     </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        @forelse ($messages as $message)
-                            <a href="/read-message/{{ $message->id }}" class="dropdown-item">
-                                <div class="media">
-                                    <img src="{{ asset($message->image) }}" alt="User Avatar"
-                                        class="img-size-50 mr-3 img-circle">
-                                    <div class="media-body">
-                                        <h3 class="dropdown-item-title">
-                                            {{ $message->created_at }}
-                                            <span class="float-right text-sm text-danger"><i
-                                                    class="fas fa-star"></i></span>
-                                        </h3>
-                                        <p class="text-sm">{{ $message->text }}</p>
-                                        <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                                    </div>
-                                </div>
-                                <!-- Message End -->
-                            </a>
-                            <div class="dropdown-divider"></div>
-                        @empty
-                            <a href="#" class="dropdown-item">No data</a>
-                        @endforelse
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="messages-dropdown">
+                        <!-- Dastlab \"No data\" deb ko'rsatish -->
+                        <a href="#" class="dropdown-item">No data</a>
                         <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
                     </div>
                 </li>

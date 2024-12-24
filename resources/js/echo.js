@@ -47,3 +47,51 @@ window.Echo.channel('employee')
         messageList.prepend(newMessage);
     });
 
+
+window.Pusher = Pusher;
+
+const echo = new Echo({
+    broadcaster: 'pusher',
+    key: process.env.MIX_PUSHER_APP_KEY,
+    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+    forceTLS: true
+});
+
+// Real vaqt yangilanishlarini tinglash
+echo.private('notification')
+    .listen('NotificationEvent', (data) => {
+        console.log(data);
+        const messageCountElement = document.getElementById('message-count');
+        const dropdown = document.getElementById('messages-dropdown');
+
+        // Xabarlar sonini yangilash
+        messageCountElement.textContent = data.messageCount;
+
+        // Dropdownni yangilash
+        dropdown.innerHTML = '';
+        if (data.messages.length > 0) {
+            data.messages.forEach(message => {
+                dropdown.innerHTML += `
+                        <a href="/read-message/${message.id}" class="dropdown-item">
+                            <div class="media">
+                                <img src="${message.image}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                                <div class="media-body">
+                                    <h3 class="dropdown-item-title">
+                                        ${message.created_at}
+                                        <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
+                                    </h3>
+                                    <p class="text-sm">${message.text}</p>
+                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> ${message.timeAgo}</p>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                    `;
+            });
+        } else {
+            dropdown.innerHTML = '<a href="#" class="dropdown-item">No data</a>';
+        }
+
+        dropdown.innerHTML += '<a href="#" class="dropdown-item dropdown-footer">See All Messages</a>';
+    });
+

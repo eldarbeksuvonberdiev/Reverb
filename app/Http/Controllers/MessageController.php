@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\MessageEvent;
+use App\Events\NotificationEvent;
 use App\Models\Message;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -45,6 +46,11 @@ class MessageController extends Controller
         }
         // dd($data);
         $message = Message::create($data);
+
+        $messages = Message::where('status', 1)->get();
+        $messageCount = $messages->count();
+        
+        broadcast(new NotificationEvent($messageCount, $messages));
         broadcast(new MessageEvent($message));
         return back();
     }

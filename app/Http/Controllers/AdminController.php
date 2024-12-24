@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NotificationEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Message;
 use Illuminate\Http\Request;
@@ -13,10 +14,12 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $messageCount = Message::where('status',1)->get();
-        $messageCount = $messageCount->count();
-        $messages = Message::where('status',1)->get();
-        return view('otherMain',compact('messageCount','messages'));
+        $messages = Message::where('status', 1)->get();
+        $messageCount = $messages->count();
+
+        broadcast(new NotificationEvent($messageCount, $messages));
+        
+        return view('otherMain');
     }
 
     /**
