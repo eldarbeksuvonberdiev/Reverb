@@ -47,51 +47,40 @@ window.Echo.channel('employee')
         messageList.prepend(newMessage);
     });
 
-
 window.Pusher = Pusher;
 
-const echo = new Echo({
-    broadcaster: 'pusher',
-    key: process.env.MIX_PUSHER_APP_KEY,
-    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-    forceTLS: true
+window.Echo = new Echo({
+    broadcaster: 'reverb',
+    key: import.meta.env.VITE_REVERB_APP_KEY,
+    wsHost: import.meta.env.VITE_REVERB_HOST,
+    wsPort: import.meta.env.VITE_REVERB_PORT ?? 80,
+    forceTLS: false,
 });
 
-// Real vaqt yangilanishlarini tinglash
-echo.private('notification')
-    .listen('NotificationEvent', (data) => {
-        console.log(data);
-        const messageCountElement = document.getElementById('message-count');
-        const dropdown = document.getElementById('messages-dropdown');
+window.Echo.channel('message')
+    .listen('ProductEvent', (e) => {
+        console.log(e.message.messageCount);  // Bu yerda count qiymatini konsolga chiqarish
+        const messageList = document.getElementById('messageList');
 
-        // Xabarlar sonini yangilash
-        messageCountElement.textContent = data.messageCount;
-
-        // Dropdownni yangilash
-        dropdown.innerHTML = '';
-        if (data.messages.length > 0) {
-            data.messages.forEach(message => {
-                dropdown.innerHTML += `
-                        <a href="/read-message/${message.id}" class="dropdown-item">
-                            <div class="media">
-                                <img src="${message.image}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-                                <div class="media-body">
-                                    <h3 class="dropdown-item-title">
-                                        ${message.created_at}
-                                        <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                                    </h3>
-                                    <p class="text-sm">${message.text}</p>
-                                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> ${message.timeAgo}</p>
-                                </div>
-                            </div>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                    `;
-            });
+        if (!document.querySelector(`#message-${e.message.id}`)) {
+            const li = document.createElement('li');
+            li.id = `message-${e.message.id}`;
+            li.classList.add('list-group-item');
+            li.innerHTML = `
+                <strong>${e.message.text}</strong><br>
+                <img src="${e.message.image}" class="img-fluid mt-2" style="max-width: 100px;">
+            `;
+            messageList.appendChild(li);
         } else {
-            dropdown.innerHTML = '<a href="#" class="dropdown-item">No data</a>';
+            console.log(`Duplicate message ignored: ${e.message.id}`);
         }
 
-        dropdown.innerHTML += '<a href="#" class="dropdown-item dropdown-footer">See All Messages</a>';
+        const notificationCount = document.getElementById('notificationCount');
+        const totalMessages = e.message.messageCount;
+
+        // Console orqali `totalMessages` ni tekshirib chiqing
+        console.log("Total messages: " + totalMessages);
+
+        notificationCount.textContent = totalMessages;  // notificationCountni yangilash
     });
 

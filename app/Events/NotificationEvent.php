@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class NotificationEvent
+class NotificationEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -34,6 +34,18 @@ class NotificationEvent
     {
         return [
             new Channel('notification'),
+        ];
+    }
+
+    public function broadcastWith(): array
+    {
+        return [
+            'message' => [
+                'id' => $this->messages->id,
+                'name' => $this->messages->name,
+                'image' => $this->messages->image,
+                'count' => $this->messageCount,
+            ],
         ];
     }
 }

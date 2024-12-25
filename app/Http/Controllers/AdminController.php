@@ -18,8 +18,7 @@ class AdminController extends Controller
         $messageCount = $messages->count();
 
         broadcast(new NotificationEvent($messageCount, $messages));
-        
-        return view('otherMain');
+        return view('otherMain', compact('messageCount', 'messages'));
     }
 
     /**
