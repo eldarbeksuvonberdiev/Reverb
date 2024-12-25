@@ -15,14 +15,14 @@ class NotificationEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $messageCount;
-    public $messages;
+    public $message;
     /**
      * Create a new event instance.
      */
-    public function __construct($messageCount, $messages)
+    public function __construct($messageCount, $message)
     {
         $this->messageCount = $messageCount;
-        $this->messages = $messages;
+        $this->message = $message;
     }
 
     /**
@@ -41,9 +41,9 @@ class NotificationEvent implements ShouldBroadcast
     {
         return [
             'message' => [
-                'id' => $this->messages->id,
-                'name' => $this->messages->name,
-                'image' => $this->messages->image,
+                'id' => $this->message->id,
+                'name' => $this->message->name,
+                'image' => $this->message->image,
                 'count' => $this->messageCount,
             ],
         ];
