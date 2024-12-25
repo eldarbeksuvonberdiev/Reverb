@@ -15,6 +15,7 @@ class ChatMessageController extends Controller
      */
     public function chat()
     {
+        $users = [];
         $users = User::where('id','!=',Auth::user()->id)->get();
         return view('message.chatWithUser', compact('users'));
     }
