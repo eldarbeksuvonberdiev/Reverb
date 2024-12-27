@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewMessageEvent;
 use App\Models\ChatMessage;
 use App\Http\Controllers\Controller;
 use App\Models\ChatUser;
@@ -50,15 +51,16 @@ class ChatMessageController extends Controller
     {
         // dd($chatUser, $request->all());
         $request->validate([
-            'message' => 'required'
+            'msg' => 'required'
         ]);
 
         $chatMessage = ChatMessage::create([
             'chat_user_id' => $chatUser->id,
             'sender_id' => auth()->user()->id,
-            'message' => $request->message
+            'msg' => $request->msg
         ]);
         // dd($chatMessage);
+        broadcast(new NewMessageEvent($chatMessage));
         return back();
     }
 

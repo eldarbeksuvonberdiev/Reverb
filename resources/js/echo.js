@@ -86,54 +86,59 @@ window.Echo.channel('message')
         notificationCount.textContent = totalMessages;  // notificationCountni yangilash
     });
 
+console.log(userName);
 console.log(chatId);
+console.log(toUser);
 console.log(userId);
 
-window.Echo.channel(`xabar.${chatId}`)
-    .listen('MessageEvent', (e) => {
+window.Echo.channel(`chat.${chatId}`)
+    .listen('NewMessageEvent', (e) => {
         console.log('Received Event Data:', e);
-        console.log('File URL:', e.file);
+        // console.log('File URL:', e.file);
 
-        const messageList = document.getElementById('messageList');
-        const newMessage = document.createElement('li');
+        const messageList = document.getElementById('newMessage');
+        const newMessage = document.createElement('h5');
 
-        let filePreview = '';
-
-        if (e.file) {
-            const extension = e.file.split('.').pop().toLowerCase();
-            if (['jpg', 'jpeg', 'png', 'gif'].includes(extension)) {
-                filePreview = `<img src="${e.file}" alt="Image" width="200px" style="margin-top: 5px;">`;
-            } else if (['mp4', 'webm', 'ogg'].includes(extension)) {
-                filePreview = `
-                        <video width="200px" controls style="margin-top: 5px;">
-                            <source src="${e.file}" type="video/${extension}">
-                            Your browser does not support the video tag.
-                        </video>`;
-            } else if (['mp3'].includes(extension)) {
-                filePreview = `
-                        <audio controls style="margin-top: 5px;">
-                            <source src="${e.file}" type="audio/${extension}">
-                            Your browser does not support the audio tag.
-                        </audio>`;
-            } else if (['txt', 'pdf', 'doc', 'docx'].includes(extension)) {
-                filePreview = `<a href="${e.file}" target="_blank" style="color: #007bff; font-weight: bold; margin-top: 5px;">Download File</a>`;
-            } else {
-                filePreview = `<a href="${e.file}" target="_blank" style="color: #007bff; font-weight: bold; margin-top: 5px;">Download File</a>`;
-            }
-        }
 
         newMessage.innerHTML = `
-                <li style="padding: 10px; border-bottom: 1px solid #e0e0e0">
-                    <span class="text-primary" style="font-weight: bold">${e.sender}:</span>
-                    <span>${e.text}</span>
-                    <div class="file-preview">${filePreview}</div>
-                </li>
-            `;
+        <strong style="color: red">
+        ${e.sender_id == userId ? 'You' : toUser.name.charAt(0).toUpperCase() + toUser.name.slice(1)}
+        : </strong>${e.msg}
+        `;
 
-        if (e.sender !== userId) {
-            messageList.prepend(newMessage);
+        if (e.sender_id !== userId) {
+            // messageList.appendChild(newMessage);
+            messageList.append(newMessage);
         }
     });
+// let filePreview = '';
+
+// if (e.file) {
+//     const extension = e.file.split('.').pop().toLowerCase();
+//     if (['jpg', 'jpeg', 'png', 'gif'].includes(extension)) {
+//         filePreview = `<img src="${e.file}" alt="Image" width="200px" style="margin-top: 5px;">`;
+//     } else if (['mp4', 'webm', 'ogg'].includes(extension)) {
+//         filePreview = `
+//                 <video width="200px" controls style="margin-top: 5px;">
+//                     <source src="${e.file}" type="video/${extension}">
+//                     Your browser does not support the video tag.
+//                 </video>`;
+//     } else if (['mp3'].includes(extension)) {
+//         filePreview = `
+//                 <audio controls style="margin-top: 5px;">
+//                     <source src="${e.file}" type="audio/${extension}">
+//                     Your browser does not support the audio tag.
+//                 </audio>`;
+//     } else if (['txt', 'pdf', 'doc', 'docx'].includes(extension)) {
+//         filePreview = `<a href="${e.file}" target="_blank" style="color: #007bff; font-weight: bold; margin-top: 5px;">Download File</a>`;
+//     } else {
+//         filePreview = `<a href="${e.file}" target="_blank" style="color: #007bff; font-weight: bold; margin-top: 5px;">Download File</a>`;
+//     }
+// }
+// <li style="padding: 10px; border-bottom: 1px solid #e0e0e0">
+//     <span class="text-primary" style="font-weight: bold">${e.sender}:</span>
+//     <span>${e.text}</span>
+// </li>
 
 // window.Echo.channel('newUser')
 //     .listen('NewUserEvent', (e) => {

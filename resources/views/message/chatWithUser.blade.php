@@ -13,21 +13,23 @@
                 <h4 style="color: red;">No users</h4>
             @endforelse
         </div>
-        <div class="col-8 mt-5" id="newMessage">
-            @forelse ($messages as $message)
-                <h5><strong style="color: red">
-                        {{ $message->sender_id == auth()->user()->id ? 'You' : ucfirst($message->sender->name) }}
-                        : </strong>{{ $message->message }}
-                </h5>
-            @empty
-                <h5>No message</h5>
-            @endforelse
+        <div class="col-8 mt-5">
+            <div class="mt-2" id="newMessage">
+                @forelse ($messages as $message)
+                    <h5><strong style="color: red">
+                            {{ $message->sender_id == auth()->user()->id ? 'You' : ucfirst($message->sender->name) }}
+                            : </strong>{{ $message->msg }}
+                    </h5>
+                @empty
+                    <h5>No message</h5>
+                @endforelse
+            </div>
             <form action="/chat-to/{{ $chatUser->id }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col-6">
-                        <input type="text" class="form-control mt-5" name="message" placeholder="Your message...">
-                        @error('message')
+                        <input type="text" class="form-control mt-5" name="msg" placeholder="Your message...">
+                        @error('msg')
                             <span>{{ $message }}</span>
                         @enderror
                     </div>
@@ -44,7 +46,9 @@
     @if (isset($chatUser))
         <script>
             const chatId = @json($chatUser->id);
-            const userId = @json(auth()->user()->name);
+            const toUser = @json($toUser);
+            const userName = @json(auth()->user()->name);
+            const userId = @json(auth()->user()->id);
         </script>
     @else
         <p>No chat selected</p>
