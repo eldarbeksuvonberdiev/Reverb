@@ -103,7 +103,7 @@ window.Echo.channel(`chat.${chatId}`)
         newMessage.innerHTML = `
         <strong style="color: red">
         ${e.sender_id == userId ? 'You' : toUser.name.charAt(0).toUpperCase() + toUser.name.slice(1)}
-        : </strong>${e.msg}
+        : </strong>${e.message.msg}
         `;
 
         if (e.sender_id !== userId) {
