@@ -21,6 +21,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/chat',[ChatMessageController::class,'chat']);
+    Route::get('/chat-with/{user}',[ChatMessageController::class,'chatWith']);
+    Route::post('/chat-to/{chatUser}',[ChatMessageController::class,'chatToUser']);
 });
 
 require __DIR__.'/auth.php';

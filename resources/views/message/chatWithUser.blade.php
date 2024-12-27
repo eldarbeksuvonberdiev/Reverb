@@ -1,35 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('message.chat_layout')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-</head>
+@section('title', 'Chat with User')
 
-<body>
 
-    <div class="container">
-        <div class="row">
-            <div class="col-4 mt-5">
-                @forelse ($users as $user)
-                    <h4 style="color: red;">{{ $user->name }}</h4>
-                @empty
-                    <h4 style="color: red;">No users</h4>
-                @endforelse
-            </div>
-            <div class="col-7">
-                <h3>Chat</h3>
-            </div>
+@section('content')
+    <div class="row">
+        <div class="col-4 mt-5">
+            @forelse ($users as $user)
+                <a href="/chat-with/{{ $user->id }}" class="btn btn-outline-primary">{{ $user->name }}</a>
+            @empty
+                <h4 style="color: red;">No users</h4>
+            @endforelse
+        </div>
+        <div class="col-8 mt-5">
+            @forelse ($messages as $message)
+                <h5><strong style="color: red">{{ $message->sender->name }}:</strong>{{ $message->message }}</h5>
+            @empty
+                <h5>No message</h5>
+            @endforelse
+            <form action="/chat-to/{{ $chatUser->id }}" method="POST">
+                @csrf
+                <div class="row">
+                    <div class="col-9">
+                        <input type="text" class="form-control mt-5" name="message" placeholder="Your message...">
+                        @error('message')
+                            <span>{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="col-3">
+                        <button type="submit" class="btn btn-primary mt-5"><i class="bi bi-send"></i></button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script>
-</body>
-
-</html>
+@endsection
